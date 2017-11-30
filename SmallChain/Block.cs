@@ -14,7 +14,7 @@ namespace SmallChain
             Data = "genesis",
             Hash = "c5cd6055557f80eaf2ab3809d1e544d0158198acdd16b80bfa259bfaf521399f"
         };
-        
+
         public int Index { get; set; }
         public string PreviousHash { get; set; }
         public long Timestamp { get; set; }
