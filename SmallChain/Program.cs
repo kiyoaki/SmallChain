@@ -21,15 +21,15 @@ namespace SmallChain
             // Create genesis block
             node1.AddNewBlock();
 
-            node1.AddConnectNode(node2);
-            node2.AddConnectNode(node3);
-            node3.AddConnectNode(node4);
-            node4.AddConnectNode(node5);
-            node5.AddConnectNode(node6);
+            node1.Connect(node2);
+            node2.Connect(node3);
+            node3.Connect(node4);
+            node4.Connect(node5);
+            node5.Connect(node6);
 
-            node1.AddConnectNode(node3);
-            node2.AddConnectNode(node4);
-            node5.AddConnectNode(node6);
+            node1.Connect(node3);
+            node2.Connect(node4);
+            node5.Connect(node6);
 
             await Task.WhenAll(
                 node1.Run(logging: true),

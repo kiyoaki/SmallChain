@@ -33,7 +33,7 @@ namespace SmallChain
             localChain = remoteChain;
         }
 
-        public void AddConnectNode(ClientNode node)
+        public void Connect(ClientNode node)
         {
             connectedNodes.Add(node);
         }
