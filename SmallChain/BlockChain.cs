@@ -23,7 +23,21 @@ namespace SmallChain
             }
         }
 
-        public int Length { get { return chain.Count; } }
+        public int Length
+        {
+            get
+            {
+                Lock.EnterReadLock();
+                try
+                {
+                    return chain.Count;
+                }
+                finally
+                {
+                    Lock.ExitReadLock();
+                }
+            }
+        }
 
         public bool TryAddBlock(string data = null)
         {
