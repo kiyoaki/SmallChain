@@ -56,14 +56,6 @@ namespace SmallChain
             return true;
         }
 
-        public static string CalculateHash(long index, string previous, long timestamp, string data)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                return sha256.ComputeHash(Encoding.UTF8.GetBytes(index + previous + timestamp + data)).ToHexString();
-            }
-        }
-
         public override int GetHashCode()
         {
             return Index;
@@ -91,6 +83,14 @@ namespace SmallChain
         public override string ToString()
         {
             return $"Index: {Index}, Hash: {Hash}, Data: {Data}";
+        }
+
+        private static string CalculateHash(long index, string previous, long timestamp, string data)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                return sha256.ComputeHash(Encoding.UTF8.GetBytes(index + previous + timestamp + data)).ToHexString();
+            }
         }
     }
 }
