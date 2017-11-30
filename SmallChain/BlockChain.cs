@@ -36,6 +36,19 @@ namespace SmallChain
             }
         }
 
+        public void CreateGenesis()
+        {
+            Lock.EnterWriteLock();
+            try
+            {
+                chain.Add(Block.Genesis);
+            }
+            finally
+            {
+                Lock.ExitWriteLock();
+            }
+        }
+
         public bool TryAddBlock(string data = null)
         {
             Lock.EnterUpgradeableReadLock();
@@ -43,16 +56,7 @@ namespace SmallChain
             {
                 if (chain.Count == 0)
                 {
-                    Lock.EnterWriteLock();
-                    try
-                    {
-                        chain.Add(Block.Genesis);
-                    }
-                    finally
-                    {
-                        Lock.ExitWriteLock();
-                    }
-                    return true;
+                    return false;
                 }
 
                 var previousBlock = GetLatestBlock();

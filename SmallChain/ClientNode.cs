@@ -16,6 +16,11 @@ namespace SmallChain
             this.name = name;
         }
 
+        public void CreateGenesisBlock()
+        {
+            localChain.CreateGenesis();
+        }
+
         public void OnReceiveChain(BlockChain remoteChain)
         {
             if (!remoteChain.Validate())
@@ -38,15 +43,6 @@ namespace SmallChain
             connectedNodes.Add(node);
         }
 
-        public void AddNewBlock()
-        {
-            counter++;
-            if (localChain.TryAddBlock(name + "-" + counter))
-            {
-                Console.WriteLine(name + " added block " + localChain.GetLatestBlock());
-            }
-        }
-
         public async Task Run(bool logging = false)
         {
             var random = new Random();
@@ -63,7 +59,11 @@ namespace SmallChain
                 var i = random.Next(1, 6);
                 if (i == 5)
                 {
-                    AddNewBlock();
+                    counter++;
+                    if (localChain.TryAddBlock(name + "-" + counter))
+                    {
+                        Console.WriteLine(name + " added block " + localChain.GetLatestBlock());
+                    }
 
                     if (logging)
                     {

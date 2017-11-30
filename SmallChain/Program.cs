@@ -18,8 +18,7 @@ namespace SmallChain
             var node5 = new ClientNode("node5");
             var node6 = new ClientNode("node6");
 
-            // Create genesis block
-            node1.AddNewBlock();
+            node1.CreateGenesisBlock();
 
             node1.Connect(node2);
             node2.Connect(node3);
