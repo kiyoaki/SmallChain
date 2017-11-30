@@ -24,7 +24,7 @@ namespace SmallChain
                 return;
             }
 
-            if (localChain.Length > remoteChain.Length)
+            if (localChain.GetLength() > remoteChain.GetLength())
             {
                 Console.WriteLine("smaller length chain received");
                 return;

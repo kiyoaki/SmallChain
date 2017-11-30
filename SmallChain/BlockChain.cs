@@ -23,19 +23,16 @@ namespace SmallChain
             }
         }
 
-        public int Length
+        public int GetLength()
         {
-            get
+            Lock.EnterReadLock();
+            try
             {
-                Lock.EnterReadLock();
-                try
-                {
-                    return chain.Count;
-                }
-                finally
-                {
-                    Lock.ExitReadLock();
-                }
+                return chain.Count;
+            }
+            finally
+            {
+                Lock.ExitReadLock();
             }
         }
 
