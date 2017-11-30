@@ -58,7 +58,18 @@ namespace SmallChain
 
         public override int GetHashCode()
         {
-            return Index;
+            unchecked
+            {
+                int hash = 17;
+
+                hash = hash * 23 + Index.GetHashCode();
+                hash = hash * 23 + PreviousHash?.GetHashCode() ?? 0;
+                hash = hash * 23 + Timestamp.GetHashCode();
+                hash = hash * 23 + Data.GetHashCode();
+                hash = hash * 23 + Hash.GetHashCode();
+
+                return hash;
+            }
         }
 
         public override bool Equals(object obj)
