@@ -1,2 +1,2 @@
 # SmallChain
-Small blockchain
+SmallChain is a minimum blockchain implementation using .NET Core.
