@@ -32,11 +32,10 @@ namespace SmallChain
             {
                 if (chain.Count == 0)
                 {
-                    var genesisBlock = Util.CreateGenesisBlock();
                     Lock.EnterWriteLock();
                     try
                     {
-                        chain.Add(genesisBlock);
+                        chain.Add(Block.Genesis);
                     }
                     finally
                     {
@@ -85,8 +84,7 @@ namespace SmallChain
                     return false;
                 }
 
-                var genesisBlock = Util.CreateGenesisBlock();
-                if (!genesisBlock.Equals(chain[0]))
+                if (!Block.Genesis.Equals(chain[0]))
                 {
                     return false;
                 }
