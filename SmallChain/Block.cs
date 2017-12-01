@@ -65,8 +65,8 @@ namespace SmallChain
                 hash = hash * 23 + Index.GetHashCode();
                 hash = hash * 23 + PreviousHash?.GetHashCode() ?? 0;
                 hash = hash * 23 + Timestamp.GetHashCode();
-                hash = hash * 23 + Data.GetHashCode();
-                hash = hash * 23 + Hash.GetHashCode();
+                hash = hash * 23 + Data?.GetHashCode() ?? 0;
+                hash = hash * 23 + Hash?.GetHashCode() ?? 0;
 
                 return hash;
             }
