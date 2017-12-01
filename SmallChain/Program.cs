@@ -28,7 +28,8 @@ namespace SmallChain
 
             node1.Connect(node3);
             node2.Connect(node4);
-            node5.Connect(node6);
+            node3.Connect(node5);
+            node4.Connect(node6);
 
             await Task.WhenAll(
                 node1.Run(logging: true),
