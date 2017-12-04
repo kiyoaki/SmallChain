@@ -7,51 +7,51 @@ namespace SmallChain
 {
     public class BlockChain
     {
-        private static readonly ReaderWriterLockSlim Lock = new ReaderWriterLockSlim();
+        private readonly ReaderWriterLockSlim chainsLock = new ReaderWriterLockSlim();
         private readonly List<Block> chain = new List<Block>();
 
         public Block GetLatestBlock()
         {
-            Lock.EnterReadLock();
+            chainsLock.EnterReadLock();
             try
             {
                 return chain[chain.Count - 1];
             }
             finally
             {
-                Lock.ExitReadLock();
+                chainsLock.ExitReadLock();
             }
         }
 
         public int GetLength()
         {
-            Lock.EnterReadLock();
+            chainsLock.EnterReadLock();
             try
             {
                 return chain.Count;
             }
             finally
             {
-                Lock.ExitReadLock();
+                chainsLock.ExitReadLock();
             }
         }
 
         public void CreateGenesis()
         {
-            Lock.EnterWriteLock();
+            chainsLock.EnterWriteLock();
             try
             {
                 chain.Add(Block.Genesis);
             }
             finally
             {
-                Lock.ExitWriteLock();
+                chainsLock.ExitWriteLock();
             }
         }
 
         public bool TryAddBlock(string data = null)
         {
-            Lock.EnterUpgradeableReadLock();
+            chainsLock.EnterUpgradeableReadLock();
             try
             {
                 if (chain.Count == 0)
@@ -70,28 +70,28 @@ namespace SmallChain
                 nextBlock.AppendHash();
                 if (previousBlock.Validate(nextBlock))
                 {
-                    Lock.EnterWriteLock();
+                    chainsLock.EnterWriteLock();
                     try
                     {
                         chain.Add(nextBlock);
                     }
                     finally
                     {
-                        Lock.ExitWriteLock();
+                        chainsLock.ExitWriteLock();
                     }
                     return true;
                 }
             }
             finally
             {
-                Lock.ExitUpgradeableReadLock();
+                chainsLock.ExitUpgradeableReadLock();
             }
             return false;
         }
 
         public bool Validate()
         {
-            Lock.EnterReadLock();
+            chainsLock.EnterReadLock();
             try
             {
                 if (chain.Count == 0)
@@ -125,7 +125,7 @@ namespace SmallChain
             }
             finally
             {
-                Lock.ExitReadLock();
+                chainsLock.ExitReadLock();
             }
             return true;
         }
@@ -137,7 +137,7 @@ namespace SmallChain
             builder.AppendLine();
             builder.AppendLine("===========================");
 
-            Lock.EnterReadLock();
+            chainsLock.EnterReadLock();
             try
             {
                 foreach (var block in chain)
@@ -147,7 +147,7 @@ namespace SmallChain
             }
             finally
             {
-                Lock.ExitReadLock();
+                chainsLock.ExitReadLock();
             }
 
             builder.AppendLine("===========================");
