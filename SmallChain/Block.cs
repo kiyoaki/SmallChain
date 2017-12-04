@@ -23,7 +23,15 @@ namespace SmallChain
 
         public void AppendHash()
         {
-            Hash = CalculateHash(Index, PreviousHash, Timestamp, Data);
+            Hash = CalculateHash();
+        }
+
+        public string CalculateHash()
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                return sha256.ComputeHash(Encoding.UTF8.GetBytes(Index + PreviousHash + Timestamp + Data)).ToHexString();
+            }
         }
 
         public bool Validate(Block newBlock)
@@ -46,7 +54,7 @@ namespace SmallChain
                 return false;
             }
 
-            var hash = CalculateHash(newBlock.Index, newBlock.PreviousHash, newBlock.Timestamp, newBlock.Data);
+            var hash = newBlock.CalculateHash();
             if (hash != newBlock.Hash)
             {
                 Console.WriteLine("invalid hash: " + hash + " " + newBlock.Hash);
@@ -94,14 +102,6 @@ namespace SmallChain
         public override string ToString()
         {
             return $"Index: {Index}, Hash: {Hash}, Data: {Data}";
-        }
-
-        private static string CalculateHash(long index, string previous, long timestamp, string data)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                return sha256.ComputeHash(Encoding.UTF8.GetBytes(index + previous + timestamp + data)).ToHexString();
-            }
         }
     }
 }
